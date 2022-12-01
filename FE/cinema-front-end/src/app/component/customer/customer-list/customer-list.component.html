@@ -1,0 +1,448 @@
+<body>
+
+
+<div class="row">
+  <div class="col-lg-1"></div>
+  <div class="col-lg-10">
+    <div class="row">
+      <div class="col-12 text-center">
+        <h2 class="text-uppercase">Danh sách thành viên</h2>
+      </div>
+    </div>
+
+    <div class="row m-0 p-0">
+      <div class="col-lg-2 col-sm-4"></div>
+      <div class="col-lg-2 col-sm-4"></div>
+      <div class="col-lg-2"></div>
+      <div class="col-lg-2"></div>
+      <div class="col-lg-4 col-sm-4 p-1 pe-0 content-end">
+        <div class="d-flex">
+          <input class="form-control me-2" type="search" placeholder="Nhập tên để tìm.."
+                 aria-label="Search" [(ngModel)]="nameSearch">
+          <button (click)="getAllCustomer()" class="button btnGreen" style="height: 38px" type="submit">
+            Tìm
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class=" row p-0 m-0 table-responsive">
+      <table class="table" id="no-more-table">
+        <thead class="bg bg-warning">
+        <tr>
+          <th>#</th>
+          <th>Tên thành viên</th>
+          <th>Số CMND/CCCD</th>
+          <th>Email</th>
+          <th>Số điện thoại</th>
+          <th>Địa chỉ</th>
+          <th>Sửa</th>
+        </tr>
+        </thead>
+        <tbody class="text-black  bg-light">
+        <tr *ngFor="let customer of (customers$ | async); index as i">
+          <td data-tittle="STT">{{i + 1 + (page - 1) * pageSize}}</td>
+          <td data-tittle="Tên thành viên">{{customer.name}}</td>
+          <td data-tittle="Số CMND/CCCD">{{customer.idCard}}</td>
+          <td data-tittle="Email">{{customer.email}}</td>
+          <td data-tittle="Số điện thoại">{{customer.phoneNumber}}</td>
+          <td data-tittle="Địa chỉ">{{customer.address}}</td>
+          <td data-tittle="Sửa">
+            <a routerLink="/customer/edit/{{customer.id}}">
+              <button  class="button btnYellow">
+                Chỉnh sửa
+              </button>
+            </a>
+        </tr>
+        </tbody>
+      </table>
+
+      <div class="row">
+        <div class="col-lg-3 col-sm-4 ms-0">
+          <div class=" p-0 text-center">
+            <span class="fw-bold text-light"></span>
+            <select class="form-select form-select-sm" name="state" id="maxRows " [(ngModel)]="pageSize"
+                    (ngModelChange)="getAllCustomer()">
+              <option  value="5">Chọn số lượng hiển thị</option>
+              <option  [ngValue]="10" >10</option>
+              <option [ngValue]="15">15</option>
+              <option [ngValue]="20">20</option>
+              <option [ngValue]="5000">Hiển thị tất cả</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-lg-5 "></div>
+        <div class="col-lg-4 col-sm-4 ">
+          <div class='pagination-container'>
+            <nav aria-label="Page navigation example">
+                            <ngb-pagination
+                              [collectionSize]="(total$| async)!"
+                              [(page)]="page"
+                              [maxSize]="5"
+                              [pageSize]="pageSize"
+                              (pageChange)="getAllCustomer()">
+                              <ng-template ngbPaginationNumber let-page>{{ page }}</ng-template>
+                            </ngb-pagination>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-1"></div>
+</div>
+</body>
+
+<!--<div class="wrapper">-->
+<!--  <div class="sidebar pt-2">-->
+<!--    &lt;!&ndash;        <h2>Home</h2>&ndash;&gt;-->
+<!--    <img src="rum.png" height="102" width="200"/>-->
+<!--  </div>-->
+<!--  <div class="main_content">-->
+<!--    &lt;!&ndash;        Nội dung ghi ở đây&ndash;&gt;-->
+<!--    &lt;!&ndash;        <div class="header">&ndash;&gt;-->
+<!--    &lt;!&ndash;            <h2></h2>&ndash;&gt;-->
+<!--    &lt;!&ndash;        </div>&ndash;&gt;-->
+<!--    <div class="info">-->
+
+<!--      <div class="row">-->
+<!--        <div class="col-12">-->
+<!--          <div class="row">-->
+<!--            <div class="col col-lg-6">-->
+<!--            </div>-->
+<!--            &lt;!&ndash;                        <div class="col col-lg-1">&ndash;&gt;-->
+<!--            &lt;!&ndash;                            <button class="button btnGreen" style="height: 38px">Thêm mới</button>&ndash;&gt;-->
+<!--            &lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--            <div class="col-lg-3"></div>-->
+<!--            <div class="col col-lg-3">-->
+<!--              <div class="d-flex">-->
+<!--                <input class="form-control me-2" type="search" placeholder="Nhập tên để tìm kiếm...."-->
+<!--                       aria-label="Search"-->
+<!--                       aria-describedby="button-addon2" [(ngModel)]="nameSearch">-->
+<!--                <button (click)="getAllCustomer()" class="button btnGreen" style="height: 38px" type="submit">-->
+<!--                  &lt;!&ndash;                                    <i class="fa-solid fa-magnifying-glass"></i>&ndash;&gt;-->
+<!--                  Tìm-->
+<!--                </button>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            &lt;!&ndash;            <div class="input-group mb-3">&ndash;&gt;-->
+<!--            &lt;!&ndash;              <input type="text" class="form-control col-8" placeholder="Recipient's username"&ndash;&gt;-->
+<!--            &lt;!&ndash;                     aria-label="Recipient's username"&ndash;&gt;-->
+<!--            &lt;!&ndash;                     aria-describedby="button-addon2" [(ngModel)]="name" )]>&ndash;&gt;-->
+<!--            &lt;!&ndash;              <button (click)="getAllCustomer()" class="btn btn-success" type="button" id="button-addon2">Button&ndash;&gt;-->
+<!--            &lt;!&ndash;              </button>&ndash;&gt;-->
+<!--            &lt;!&ndash;            </div>&ndash;&gt;-->
+<!--          </div>-->
+<!--          <div class="container">-->
+<!--            <div class="row">-->
+<!--              <div class="col-2"></div>-->
+<!--              <div class="col-2"></div>-->
+<!--              <div class="col-2"></div>-->
+<!--              <div class="col-2"></div>-->
+<!--              <div class="col-2">-->
+<!--              </div>-->
+<!--              <div class="col-2 p-1 pa-0">-->
+<!--                <div class="container p-1">-->
+
+<!--                  <select class="form-select form-select-sm" name="state" id="maxRows">-->
+<!--                    <option value="5">Hiển thị tất cả</option>-->
+<!--                    <option value="5">5</option>-->
+<!--                    <option value="10">10</option>-->
+<!--                    <option value="15">15</option>-->
+<!--                    <option value="20">20</option>-->
+<!--                    <option value="50">50</option>-->
+<!--                    <option value="70">70</option>-->
+<!--                    <option value="100">100</option>-->
+<!--                  </select>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <h2 class="text-center text-light">DANH SÁCH THÀNH VIÊN</h2>-->
+
+<!--            <div class="row">-->
+<!--              <table class="table table-sm table-active " id="table-id">-->
+<!--                <thead>-->
+<!--                <tr class="bg bg-warning">-->
+<!--                  <th>-->
+<!--                    STT-->
+<!--                  </th>-->
+<!--                  <th>Tên thành viên-->
+<!--                    <span>-->
+<!--                      <button onclick="sortTable(0)" class="btn btn-sm">-->
+<!--                        <i class="fa-sharp fa-solid fa-sort"></i>-->
+<!--                      </button>-->
+<!--                    </span>-->
+<!--                  </th>-->
+<!--                  <th>-->
+<!--                    Số CMND/CCCD-->
+<!--                  </th>-->
+<!--                  <th>-->
+<!--                    Email-->
+<!--                  </th>-->
+<!--                  <th>-->
+<!--                    Số điện thoại-->
+<!--                  </th>-->
+<!--                  <th>-->
+<!--                    Địa chỉ-->
+<!--                  </th>-->
+<!--                  <th>Sửa</th>-->
+<!--                </tr>-->
+<!--                </thead>-->
+<!--                <tbody class="text-black bg-body">-->
+<!--                <tr *ngFor="let customer of (customers$ | async)!; index as i">-->
+<!--                  <td>{{i + 1}}</td>-->
+<!--                  <td>-->
+<!--                    {{customer.name}}-->
+<!--                  </td>-->
+<!--                  <td>-->
+<!--                    {{customer.idCard}}-->
+<!--                  </td>-->
+<!--                  <td>-->
+<!--                    {{customer.email}}-->
+<!--                  </td>-->
+<!--                  <td>-->
+<!--                    {{customer.phoneNumber}}-->
+<!--                  </td>-->
+<!--                  <td>-->
+<!--                    {{customer.address}}-->
+<!--                  </td>-->
+<!--                  <td>-->
+<!--                    <a routerLink="/customer/edit/{{customer.id}}">-->
+<!--                      <button class="button btnYellow">-->
+<!--                        Chỉnh sửa-->
+<!--                      </button>-->
+<!--                    </a>-->
+<!--                  </td>-->
+
+<!--                </tbody>-->
+<!--              </table>-->
+<!--            </div>-->
+<!--            <div class="row">-->
+<!--              <div class="col-8"></div>-->
+<!--              <div class="col-4">-->
+<!--                <div class='pagination-container'>-->
+<!--                  <div class="row">-->
+<!--                    <nav>-->
+<!--                      <ul class="pagination">-->
+<!--                        <li data-page="prev">-->
+<!--                          <button class="btn bg-light text-bg-info btnBlue">-->
+<!--                            <i class="fa-solid fa-backward" style="color: #0a53be"></i>-->
+<!--                          </button>-->
+<!--                        </li>-->
+<!--                        <li data-page="next" id="prev">-->
+<!--                          <button class="btn bg-light text-bg-info btnBlue">-->
+<!--                            <i class="fa-solid fa-forward" style="color: #0a53be"></i>-->
+<!--                          </button>-->
+<!--                        </li>-->
+<!--                      </ul>-->
+<!--                    </nav>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+<!--<script>-->
+<!--  function sortTable(n) {-->
+<!--    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;-->
+<!--    table = document.getElementById("table-id");-->
+<!--    switching = true;-->
+<!--    // Set the sorting direction to ascending:-->
+<!--    dir = "asc";-->
+<!--    /* Make a loop that will continue until-->
+<!--    no switching has been done: */-->
+<!--    while (switching) {-->
+<!--      // Start by saying: no switching is done:-->
+<!--      switching = false;-->
+<!--      rows = table.rows;-->
+<!--      /* Loop through all table rows (except the-->
+<!--      first, which contains table headers): */-->
+<!--      for (i = 1; i < (rows.length - 1); i++) {-->
+<!--        // Start by saying there should be no switching:-->
+<!--        shouldSwitch = false;-->
+<!--        /* Get the two elements you want to compare,-->
+<!--        one from current row and one from the next: */-->
+<!--        x = rows[i].getElementsByTagName("TD")[n];-->
+<!--        y = rows[i + 1].getElementsByTagName("TD")[n];-->
+<!--        /* Check if the two rows should switch place,-->
+<!--        based on the direction, asc or desc: */-->
+<!--        if (dir == "asc") {-->
+<!--          if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {-->
+<!--            // If so, mark as a switch and break the loop:-->
+<!--            shouldSwitch = true;-->
+<!--            break;-->
+<!--          }-->
+<!--        } else if (dir == "desc") {-->
+<!--          if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {-->
+<!--            // If so, mark as a switch and break the loop:-->
+<!--            shouldSwitch = true;-->
+<!--            break;-->
+<!--          }-->
+<!--        }-->
+<!--      }-->
+<!--      if (shouldSwitch) {-->
+<!--        /* If a switch has been marked, make the switch-->
+<!--        and mark that a switch has been done: */-->
+<!--        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);-->
+<!--        switching = true;-->
+<!--        // Each time a switch is done, increase this count by 1:-->
+<!--        switchcount++;-->
+<!--      } else {-->
+<!--        /* If no switching has been done AND the direction is "asc",-->
+<!--        set the direction to "desc" and run the while loop again. */-->
+<!--        if (switchcount == 0 && dir == "asc") {-->
+<!--          dir = "desc";-->
+<!--          switching = true;-->
+<!--        }-->
+<!--      }-->
+<!--    }-->
+<!--  }-->
+
+<!--  getPagination('#table-id');-->
+
+<!--  function getPagination(table) {-->
+<!--    var lastPage = 1;-->
+
+<!--    $('#maxRows')-->
+<!--      .on('change', function (evt) {-->
+<!--        lastPage = 1;-->
+<!--        $('.pagination')-->
+<!--          .find('li')-->
+<!--          .slice(1, -1)-->
+<!--          .remove();-->
+<!--        var trnum = 0; // reset tr counter-->
+<!--        var maxRows = parseInt($(this).val()); // get Max Rows from select option-->
+
+<!--        if (maxRows == 5000) {-->
+<!--          $('.pagination').hide();-->
+<!--        } else {-->
+<!--          $('.pagination').show();-->
+<!--        }-->
+
+<!--        var totalRows = $(table + ' tbody tr').length; // numbers of rows-->
+<!--        $(table + ' tr:gt(0)').each(function () {-->
+<!--          // each TR in  table and not the header-->
+<!--          trnum++; // Start Counter-->
+<!--          if (trnum > maxRows) {-->
+<!--            // if tr number gt maxRows-->
+
+<!--            $(this).hide(); // fade it out-->
+<!--          }-->
+<!--          if (trnum <= maxRows) {-->
+<!--            $(this).show();-->
+<!--          } // else fade in Important in case if it ..-->
+<!--        }); //  was fade out to fade it in-->
+<!--        if (totalRows > maxRows) {-->
+<!--          // if tr total rows gt max rows option-->
+<!--          var pagenum = Math.ceil(totalRows / maxRows); // ceil total(rows/maxrows) to get ..-->
+<!--          //	numbers of pages-->
+<!--          for (var i = 1; i <= pagenum;) {-->
+<!--            // for each page append pagination li-->
+<!--            $('.pagination #prev')-->
+<!--              .before(-->
+<!--                '<li data-page="' +-->
+<!--                i +-->
+<!--                '">\-->
+<!--                                  <button class="btn btn-light btnBlue ">' +-->
+<!--                i++ +-->
+<!--                '<span class="sr-only">(current)</span></button>\-->
+<!--                                </li>'-->
+<!--              )-->
+<!--              .show();-->
+<!--          } // end for i-->
+<!--        } // end if row count > max rows-->
+<!--        $('.pagination [data-page="1"]').addClass('active'); // add active class to the first li-->
+<!--        $('.pagination input').on('change', function (evt) {-->
+
+<!--        })-->
+<!--        $('.pagination li').on('click', function (evt) {-->
+<!--          // on click each page-->
+<!--          evt.stopImmediatePropagation();-->
+<!--          evt.preventDefault();-->
+<!--          var pageNum = $(this).attr('data-page'); // get it's number-->
+
+<!--          var maxRows = parseInt($('#maxRows').val()); // get Max Rows from select option-->
+
+<!--          if (pageNum == 'prev') {-->
+<!--            if (lastPage == 1) {-->
+<!--              return;-->
+<!--            }-->
+<!--            pageNum = &#45;&#45;lastPage;-->
+<!--          }-->
+<!--          if (pageNum == 'next') {-->
+<!--            if (lastPage == $('.pagination li').length - 2) {-->
+<!--              return;-->
+<!--            }-->
+<!--            pageNum = ++lastPage;-->
+<!--          }-->
+<!--          // if (pageNum == 'input') {-->
+<!--          //     pageNum = parseInt($('#input').val());-->
+<!--          // }-->
+<!--          lastPage = pageNum;-->
+<!--          var trIndex = 0; // reset tr counter-->
+<!--          $('.pagination li').removeClass('active'); // remove active class from all li-->
+<!--          $('.pagination [data-page="' + lastPage + '"]').addClass('active'); // add active class to the clicked-->
+<!--          // $(this).addClass('active');					// add active class to the clicked-->
+<!--          limitPagging();-->
+<!--          $(table + ' tr:gt(0)').each(function () {-->
+<!--            // each tr in table not the header-->
+<!--            trIndex++; // tr index counter-->
+<!--            // if tr index gt maxRows*pageNum or lt maxRows*pageNum-maxRows fade if out-->
+<!--            if (-->
+<!--              trIndex > maxRows * pageNum ||-->
+<!--              trIndex <= maxRows * pageNum - maxRows-->
+<!--            ) {-->
+<!--              $(this).hide();-->
+<!--            } else {-->
+<!--              $(this).show();-->
+<!--            } //else fade in-->
+<!--          }); // end of for each tr in table-->
+<!--        }); // end of on click pagination list-->
+<!--        limitPagging();-->
+<!--      })-->
+<!--      .val(5)-->
+<!--      .change();-->
+
+<!--    // end of on select change-->
+
+<!--    // END OF PAGINATION-->
+<!--  }-->
+
+<!--  function limitPagging() {-->
+<!--    // alert($('.pagination li').length)-->
+
+<!--    if ($('.pagination li').length > 7) {-->
+<!--      if ($('.pagination li.active').attr('data-page') <= 3) {-->
+<!--        $('.pagination li:gt(5)').hide();-->
+<!--        $('.pagination li:lt(5)').show();-->
+<!--        $('.pagination [data-page="next"]').show();-->
+<!--      }-->
+<!--      if ($('.pagination li.active').attr('data-page') > 3) {-->
+<!--        $('.pagination li:gt(0)').hide();-->
+<!--        $('.pagination [data-page="next"]').show();-->
+<!--        for (let i = (parseInt($('.pagination li.active').attr('data-page')) - 2); i <= (parseInt($('.pagination li.active').attr('data-page')) + 2); i++) {-->
+<!--          $('.pagination [data-page="' + i + '"]').show();-->
+
+<!--        }-->
+
+<!--      }-->
+<!--    }-->
+<!--  }-->
+
+<!--  $(function () {-->
+<!--    // Just to append id number for each row-->
+<!--    $('table tr:eq(0)').prepend('<th> STT </th>');-->
+
+<!--    var id = 0;-->
+
+<!--    $('table tr:gt(0)').each(function () {-->
+<!--      id++;-->
+<!--      $(this).prepend('<td>' + id + '</td>');-->
+<!--    });-->
+<!--  });-->
+<!--</script>-->

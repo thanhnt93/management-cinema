@@ -1,0 +1,123 @@
+
+<div class="row">
+  <div class="col-lg-1"></div>
+  <div class="col-lg-10">
+    <div class="row">
+      <div class="col-12 text-center">
+        <h2 class="text-uppercase mt-2">Danh sách phim</h2>
+      </div>
+    </div>
+
+    <div class="row m-0 p-0">
+      <div class="col-3 p-1 ms-0 ps-0">
+        <button class="button btnGreen" style="height: 39px" [routerLink]="['/movie/add']">
+          Thêm mới
+        </button>
+      </div>
+      <div class="col-lg-1 col-sm-4"></div>
+      <div class="col-lg-2 col-sm-4"></div>
+      <div class="col-lg-2"></div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-3 col-sm-4 p-1 pe-0">
+        <div class="d-flex">
+          <input class="form-control me-2" type="search" placeholder="Tìm tên phim"
+                 aria-label="Search" [(ngModel)]="name">
+          <button (click)="searchMovie()" class="button btnGreen" style="height: 38px" type="submit">
+            Tìm
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row p-0 m-0 table-responsive">
+      <table class="table table-sm" id="no-more-table">
+        <thead class="bg bg-warning">
+        <tr>
+          <th>#</th>
+          <th>Phim</th>
+          <th>Ngày khởi chiếu</th>
+          <th>Hãng phim</th>
+          <th>Thời lượng</th>
+          <th>Phiên bản</th>
+          <th>Sửa</th>
+          <th>Xoá</th>
+        </tr>
+        </thead>
+
+        <tbody class="text-black  bg-light">
+        <tr *ngFor="let movie of (movieList$ | async); index as i">
+          <td data-tittle="STT" >{{i + 1 + (page - 1) * size}}</td>
+          <td data-tittle="Phim" class="text-lg-start">{{movie.name}}</td>
+          <td data-tittle="Ngày khởi chiếu">{{movie.startDay |date: "dd/MM/yyyy"}}</td>
+          <td data-tittle="Hãng phim" >{{movie.filmStudio}}</td>
+          <td data-tittle="Thời lượng">{{movie.filmTime}} phút</td>
+          <td data-tittle="Phiên bản">{{movie.version}}</td>
+          <td data-tittle="Sửa">
+            <div class="text-center wrapCss">
+              <button class="button btnYellow" routerLink="/movie/edit/{{movie.id}}">
+                Chỉnh sửa
+              </button>
+            </div>
+          </td>
+          <td data-tittle="Xoá">
+            <div class="text-center wrapCss">
+              <button class="button btnRed" (click)="confirmDelete(movie)">Xóa</button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-2 col-sm-4 ms-0">
+        <div class="container p-0 text-center">
+          <span class="fw-bold text-light"></span>
+          <select class="form-select form-select-sm" name="state" id="maxRows " [(ngModel)]="size"
+                  (ngModelChange)="getAllMovie()">
+            <option [ngValue]=" 5">Hiển thị 5 dòng</option>
+            <option [ngValue]="10">10</option>
+            <option [ngValue]="20">20</option>
+            <option [ngValue]="5000">Hiển thị tất cả</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-lg-4 "></div>
+      <div class="col-lg-4 "></div>
+      <div class="col-lg-2 col-sm-4 ">
+        <div class='pagination-container'>
+          <nav aria-label="Page navigation example">
+            <!--            <ul class="pagination">-->
+            <!--              <li class="page-item">-->
+            <!--                <a class="page-link" href="#" aria-label="Previous">-->
+            <!--                  <span aria-hidden="true">&laquo;</span>-->
+            <!--                </a>-->
+            <!--              </li>-->
+            <!--              <li class="page-item"><a class="page-link" href="#">1</a></li>-->
+            <!--              <li class="page-item"><a class="page-link" href="#">2</a></li>-->
+            <!--              <li class="page-item"><a class="page-link" href="#">3</a></li>-->
+            <!--              <li class="page-item">-->
+            <!--                <a class="page-link" href="#" aria-label="Next">-->
+            <!--                  <span aria-hidden="true">&raquo;</span>-->
+            <!--                </a>-->
+            <!--              </li>-->
+
+            <ngb-pagination
+              [collectionSize]="(total$| async)!"
+              [(page)]="page"
+              [maxSize]="5"
+              [pageSize]="size"
+              (pageChange)="getAllMovie()"
+            >
+              <ng-template ngbPaginationNumber let-page>{{ page }}</ng-template>
+            </ngb-pagination>
+
+          </nav>
+        </div>
+      </div>
+
+
+  </div>
+</div>
+  <div class="col-lg-1"></div>
+</div>

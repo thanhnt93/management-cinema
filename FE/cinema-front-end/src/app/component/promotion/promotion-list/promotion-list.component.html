@@ -1,0 +1,96 @@
+<div class="container-fluid">
+  <div class="row">
+    <h2 class="text-light text-center text-uppercase mt-2">Danh sách khuyến mãi</h2>
+    <div class="col-1"></div>
+    <div class="col-10">
+      <div class="row">
+        <div class="col-3 p-1 ps-0 m-0">
+          <button class="button btnGreen" style="height: 39px" [routerLink]="['/promotion/create']">
+            Thêm mới
+          </button>
+        </div>
+        <div class="col-1"></div>
+        <div class="col-2"></div>
+        <div class="col-2"></div>
+        <div class="col-1"></div>
+        <div class="col-3 p-1 pe-0">
+          <!--            <form class="d-flex">-->
+          <!--              <input class="form-control me-2" type="search" placeholder="Tìm tên khuyến mãi"-->
+          <!--                     aria-label="Search">-->
+          <!--              <button class="button btnGreen" style="height: 38px" type="submit">-->
+          <!--                Tìm-->
+          <!--              </button>-->
+          <!--            </form>-->
+        </div>
+      </div>
+      <div class="row">
+        <table class="table table-sm " id="table-id" style="text-align: center">
+          <thead class="bg bg-warning">
+          <tr>
+            <th>#</th>
+            <th>Tiêu đề</th>
+            <th>Thời gian bắt đầu</th>
+            <th>Thời gian kết thúc</th>
+            <th>Mức giảm giá (%)</th>
+            <th>Chi tiết</th>
+            <th>Sửa</th>
+            <th>Xóa</th>
+          </tr>
+          </thead>
+          <tbody class="text-black  bg-light">
+          <tr
+            *ngFor="let promotion of (promotionList$ | async); index as i ">
+            <td *ngIf="pageNumber>=1">{{i + 1 + (pageNumber - 1) * pageSize}}</td>
+            <td *ngIf="pageNumber===0">{{i + 1}}</td>
+            <td width="30%" class="text-lg-start">{{promotion.name | slice: 0 : 30 }}</td>
+            <td width="20%">{{promotion.startTime | date:"dd/MM/yyyy"}}</td>
+            <td width="20%">{{promotion.endTime | date:"dd/MM/yyyy"}}</td>
+            <td width="20%">{{promotion.discount}}</td>
+            <td>
+              <button class="button btnBlue" (click)="showDetail(promotion.image,promotion.detail)">
+                Chi tiết
+              </button>
+            </td>
+            <td>
+              <button class="button btnYellow" [routerLink]="['/promotion/edit/',promotion.id]">
+                Chỉnh sửa
+              </button>
+            </td>
+            <td>
+              <button class="button btnRed"
+                      (click)="getInfoPromotion(promotion.id,promotion.name)">
+                Xóa
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="row">
+        <div class="d-flex justify-content-between ms-0 p-1 ps-0">
+          <select class="form-select" style="width: 12%; height: 35px" [(ngModel)]="pageSize"
+                  (ngModelChange)="paginate()">
+            <option [ngValue]="5"> Hiển thị 5 dòng</option>
+            <option [ngValue]="10">Hiển thị 10 dòng</option>
+            <option [ngValue]="20">Hiển thị 20 dòng</option>
+            <option [ngValue]="totalElements">Hiển thị tất cả</option>
+          </select>
+          <nav aria-label="Page navigation example">
+            <ngb-pagination
+              *ngIf="pageNumber != totalElements"
+              [collectionSize]="(total$ | async)!"
+              [(page)]="pageNumber"
+              [pageSize]="pageSize"
+              [maxSize]="5"
+              (pageChange)="paginate()"
+              [boundaryLinks]="true">
+              <ng-template ngbPaginationNumber let-page>{{ page }}</ng-template>
+            </ngb-pagination>
+          </nav>
+        </div>
+      </div>
+    </div>
+    <div class="col-1"></div>
+  </div>
+</div>
+
